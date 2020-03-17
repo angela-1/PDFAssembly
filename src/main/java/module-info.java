@@ -5,6 +5,7 @@ module hellofx {
     requires com.jfoenix;
     requires kernel;
     requires layout;
+    requires io;
     opens org.openjfx to javafx.graphics;
     exports org.openjfx;
 }
