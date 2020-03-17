@@ -35,7 +35,7 @@ public class TheNav extends JFXListView<Label> {
     }
 
     private ImageView getImage(String pic) {
-        String mergeUrl = this.getClass().getResource(pic).toExternalForm();
+        String mergeUrl = getClass().getResource(pic).toExternalForm();
         ImageView icon = new ImageView(mergeUrl);
         icon.setFitWidth(20);
         icon.setPreserveRatio(true);
@@ -44,7 +44,7 @@ public class TheNav extends JFXListView<Label> {
 
     public TheNav() {
         getStyleClass().add("mylistview");
-        this.currentPage = new SimpleStringProperty(this, "currentPage", "merge");
+        currentPage = new SimpleStringProperty(this, "currentPage", "merge");
 
         Label mergeLabel = new Label(getLabel("merge"));
         mergeLabel.setId("merge");
@@ -62,12 +62,12 @@ public class TheNav extends JFXListView<Label> {
         pageNumberLabel.setId("pagenumber");
         pageNumberLabel.setGraphic(getImage("/img/pagenumber.png"));
 
-        this.setPadding(new Insets(8, 0, 0, 0));
-        this.getItems().addAll(mergeLabel, convertLabel, tocLabel, pageNumberLabel);
-        this.getSelectionModel().select(0);
-        this.setOnMouseClicked(mouseEvent -> {
-            this.currentPage.set(this.getSelectionModel().getSelectedItem().getId());
-            System.out.println("change page " + this.getCurrentPage());
+        setPadding(new Insets(8, 0, 0, 0));
+        getItems().addAll(mergeLabel, convertLabel, tocLabel, pageNumberLabel);
+        getSelectionModel().select(0);
+        setOnMouseClicked(mouseEvent -> {
+            currentPage.set(getSelectionModel().getSelectedItem().getId());
+            System.out.println("change to page " + getCurrentPage());
         });
     }
 
@@ -78,6 +78,5 @@ public class TheNav extends JFXListView<Label> {
     public SimpleStringProperty currentPageProperty() {
         return currentPage;
     }
-
 
 }

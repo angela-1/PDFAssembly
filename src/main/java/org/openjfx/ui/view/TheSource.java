@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 public class TheSource extends VBox {
     private final SimpleListProperty<String> source;
     private final JFXListView<Label> filelist;
-    private Label total;
+    private final Label total;
 
     public TheSource(Stage stage) {
         this.source = new SimpleListProperty<String>(this,

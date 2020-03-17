@@ -1,4 +1,5 @@
 module hellofx {
+    requires com.itextpdf;
     requires javafx.base;
     requires javafx.controls;
     requires javafx.graphics;

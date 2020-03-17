@@ -8,7 +8,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class PageNumberConfig extends VBox {
+import java.util.HashMap;
+import java.util.Map;
+
+public class PageNumberConfig extends VBox implements MyConfig {
     public PageNumberConfig() {
         final ToggleGroup group = new ToggleGroup();
         JFXRadioButton normalRadio = new JFXRadioButton("普通(1,2,3)");
@@ -46,5 +49,13 @@ public class PageNumberConfig extends VBox {
 
         this.setSpacing(8);
         this.getChildren().addAll(style, gridPane, pos, posHbox);
+    }
+
+    @Override
+    public Map<String, Object> getConfig() {
+        Map<String, Object> configMap = new HashMap<String, Object>();
+        configMap.put("style", "normal");
+        configMap.put("pos", "center");
+        return configMap;
     }
 }

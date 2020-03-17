@@ -1,31 +1,26 @@
 package org.openjfx;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXListView;
-import com.jfoenix.controls.JFXTabPane;
 import javafx.application.Application;
-import javafx.beans.property.SimpleListProperty;
-import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import org.openjfx.task.MyTask;
 import org.openjfx.ui.view.*;
 
-import java.io.File;
-import java.util.List;
+import java.util.Map;
 
 public class MainApp extends Application {
+    private ContextConfig config;
 
     @Override
     public void start(Stage primaryStage) {
+        this.config = new ContextConfig();
+
         // main pane
         BorderPane borderPane = new BorderPane();
         borderPane.setPadding(new Insets(0, 0, 0, 0));
@@ -45,36 +40,28 @@ public class MainApp extends Application {
 
         // source
         TheSource theSource = new TheSource(primaryStage);
-
         contentVbox.getChildren().add(theSource);
+        config.sourcePropProperty().bind(theSource.sourceProperty());
 
         // config
         TheConfig theConfig = new TheConfig();
         theConfig.titleProperty().bind(theNav.currentPageProperty());
+        config.taskPropProperty().bind(theNav.currentPageProperty());
+
 
         contentVbox.getChildren().add(theConfig);
 
         // action
         TheAction theAction = new TheAction();
-        theAction.sourceProperty().bind(theSource.sourceProperty());
-        theAction.titleProperty().bind(theConfig.titleProperty());
+        theAction.getRunButton().disableProperty().bind(theSource.sourceProperty().emptyProperty());
+        theAction.getRunButton().setOnMouseClicked(mouseEvent -> {
+            Map<String, Object> configMap = theConfig.getConfig();
+            config.setConfig(configMap);
+            MyTask task = Dispatcher.run(config);
+            new Thread(task).start();
+            theAction.getProgressBar().progressProperty().bind(task.progressProperty());
+        });
 
-//        Task task = new Task<Void>() {
-//            @Override
-//            public Void call() throws InterruptedException {
-//                final int max = 100;
-//
-//                for (int i = 1; i <= max; i++) {
-//                    Thread.sleep(50);
-//                    if (isCancelled()) {
-//                        break;
-//                    }
-//                    System.out.println("ms" + i);
-//                    updateProgress(i, max);
-//                }
-//                return null;
-//            }
-//        };
 
 //        theAction.progressProperty().bind(task.progressProperty());
 

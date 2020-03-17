@@ -1,31 +1,36 @@
 package org.openjfx.ui.view;
 
+import javafx.beans.property.SimpleMapProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableMap;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-import org.openjfx.ui.config.ConvertConfig;
-import org.openjfx.ui.config.MergeConfig;
-import org.openjfx.ui.config.PageNumberConfig;
-import org.openjfx.ui.config.TocConfig;
+import org.openjfx.ContextConfig;
+import org.openjfx.ui.config.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class TheConfig extends VBox {
     private final SimpleStringProperty title;
+    private Node node = null;
 
     public TheConfig() {
-        this.setPadding(new Insets(8, 8, 8, 8));
-        this.title = new SimpleStringProperty(this, "title", "merge");
-        this.title.addListener((observable, oldValue, newValue) -> {
+        setConfig("merge");
+        setPadding(new Insets(8, 8, 8, 8));
+        title = new SimpleStringProperty(this, "title", "merge");
+        title.addListener((observable, oldValue, newValue) -> {
             System.out.println("listener " + newValue);
-            this.setConfig(newValue);
+            setConfig(newValue);
         });
-        this.setConfig("merge");
     }
 
     private void setConfig(String newValue) {
         System.out.println("set config " + newValue);
-        Node node = this.getConfigArea(newValue);
+        node = getConfigArea(newValue);
         Label titleLabel = new Label(TheNav.getLabel(newValue));
         titleLabel.getStyleClass().add("h2");
         getChildren().setAll(titleLabel, node);
@@ -61,4 +66,9 @@ public class TheConfig extends VBox {
     public SimpleStringProperty titleProperty() {
         return title;
     }
+
+    public Map<String, Object> getConfig() {
+        return ((MyConfig) node).getConfig();
+    }
+
 }
