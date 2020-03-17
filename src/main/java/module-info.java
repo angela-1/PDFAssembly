@@ -1,10 +1,10 @@
 module hellofx {
-    requires com.itextpdf;
     requires javafx.base;
-    requires javafx.controls;
     requires javafx.graphics;
-    opens org.openjfx to javafx.graphics;
+    requires javafx.controls;
     requires com.jfoenix;
+    requires kernel;
+    requires layout;
+    opens org.openjfx to javafx.graphics;
     exports org.openjfx;
 }
-
