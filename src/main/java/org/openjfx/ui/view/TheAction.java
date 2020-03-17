@@ -12,7 +12,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import org.openjfx.Dispatcher;
+import org.openjfx.MyTask;
 
 import java.io.File;
 import java.util.List;
