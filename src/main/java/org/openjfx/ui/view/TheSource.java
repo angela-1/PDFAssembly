@@ -33,7 +33,7 @@ public class TheSource extends VBox {
                 "source", FXCollections.observableArrayList());
 
         Label srcLabel = new Label("文件列表");
-        srcLabel.getStyleClass().add("section");
+        srcLabel.getStyleClass().add("h2");
 
         FileChooser fileChooser = new FileChooser();
 

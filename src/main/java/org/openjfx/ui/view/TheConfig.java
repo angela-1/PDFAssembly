@@ -27,7 +27,7 @@ public class TheConfig extends VBox {
         System.out.println("set config " + newValue);
         Node node = this.getConfigArea(newValue);
         Label titleLabel = new Label(TheNav.getLabel(newValue));
-        titleLabel.getStyleClass().add("section");
+        titleLabel.getStyleClass().add("h2");
         getChildren().setAll(titleLabel, node);
     }
 

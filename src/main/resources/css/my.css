@@ -1,5 +1,5 @@
 .root {
-  -fx-font-size: 10pt;
+  -fx-font-size: 12px;
   -fx-font-family: tahoma, arial, "Hiragino Sans GB", "SimSun", sans-serif;
 }
 
@@ -8,8 +8,13 @@
   -fx-border-color: #ccc;
 }
 
-.section {
+.h1 {
   -fx-font-size: 16px;
+  -fx-padding: 0 0 8px 0;
+}
+
+.h2 {
+  -fx-font-size: 14px;
   -fx-padding: 0 0 8px 0;
 }
 
@@ -33,7 +38,7 @@
 
 
 .mylistview {
-  -fx-font-size: 20px;
+  -fx-font-size: 16px;
 }
 
 .action-button {
