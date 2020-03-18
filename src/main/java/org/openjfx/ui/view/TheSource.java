@@ -40,18 +40,19 @@ public class TheSource extends VBox {
         filelist = new JFXListView<Label>();
 
         filelist.setMinHeight(100);
-        filelist.setOnDragOver(evt -> {
+        filelist.setOnDragOver(dragEvent -> {
             System.out.println("over");
-            if (evt.getDragboard().hasFiles()) {
-                evt.acceptTransferModes(TransferMode.LINK);
+            if (dragEvent.getDragboard().hasFiles()) {
+                dragEvent.acceptTransferModes(TransferMode.LINK);
             }
         });
         filelist.setOnDragDropped(dragEvent -> {
-            dragEvent.acceptTransferModes(TransferMode.ANY);
-            dragEvent.consume();
-            List<File> files = dragEvent.getDragboard().getFiles();
-            System.out.println("doppped" + files);
-            this.setFiles(files);
+            if (dragEvent.getDragboard().hasFiles()) {
+                dragEvent.acceptTransferModes(TransferMode.LINK);
+                List<File> files = dragEvent.getDragboard().getFiles();
+                System.out.println("doppped" + files);
+                this.setFiles(files);
+            }
         });
 
         HBox toolhbox = new HBox();
