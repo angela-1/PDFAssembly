@@ -53,6 +53,7 @@ public class MainApp extends Application {
 
         // action
         TheAction theAction = new TheAction();
+        TheStatus theStatus = new TheStatus();
         theAction.getRunButton().disableProperty().bind(theSource.sourceProperty().emptyProperty());
         theAction.getRunButton().setOnMouseClicked(mouseEvent -> {
             Map<String, Object> configMap = theConfig.getConfig();
@@ -60,6 +61,7 @@ public class MainApp extends Application {
             MyTask task = Dispatcher.run(config);
             new Thread(task).start();
             theAction.getProgressBar().progressProperty().bind(task.progressProperty());
+            theStatus.textPropProperty().bind(task.messageProperty());
         });
 
 
@@ -75,7 +77,7 @@ public class MainApp extends Application {
 
         Separator separator = new Separator(Orientation.HORIZONTAL);
 
-        contentVbox.getChildren().addAll(separator, theAction);
+        contentVbox.getChildren().addAll(separator, theAction, theStatus);
 
         borderPane.setCenter(contentVbox);
 
