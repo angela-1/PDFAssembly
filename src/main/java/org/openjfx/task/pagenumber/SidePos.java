@@ -20,14 +20,14 @@ public class SidePos implements MyPos {
 
         if (currentPage % 2 == 0)
         {
-            pointX = pageWidth * 0.1f;
+            pointX = pageWidth * 0.05f;
         }
         else
         {
-            pointX = pageWidth * 0.9f;
+            pointX = pageWidth * 0.95f;
         }
 
-        float whiteWidth = 80f;
+        float whiteWidth = 50f;
         float whiteHeight = 30f;
         float whiteX = pointX - whiteWidth / 2;
         float whiteY = pointY - whiteHeight / 2;

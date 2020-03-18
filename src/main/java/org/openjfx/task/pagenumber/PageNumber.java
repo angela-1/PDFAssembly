@@ -34,6 +34,17 @@ public class PageNumber extends MyTask {
     private final MyStyle myStyle;
     private final MyPos myPos;
 
+
+    public PageNumber(ContextConfig config) {
+        List<String> source = (List<String>) config.get().get("source");
+        srcFile = source.get(0);
+        Map<String, Object> configMap = (Map<String, Object>) config.get().get("config");
+        NumberStyle numberStyle = (NumberStyle) configMap.get("style");
+        NumberPos numberPos = (NumberPos) configMap.get("pos");
+        myStyle = getNumberStyle(numberStyle);
+        myPos = getNumberPos(numberPos);
+    }
+
     private Path getDstFile() {
         Path file = Paths.get(srcFile);
         Path dir = file.getParent();
@@ -81,18 +92,9 @@ public class PageNumber extends MyTask {
         return pos;
     }
 
-    public PageNumber(ContextConfig config) {
-        List<String> source = (List<String>) config.get().get("source");
-        srcFile = source.get(0);
-        Map<String, Object> configMap = (Map<String, Object>) config.get().get("config");
-        NumberStyle numberStyle = (NumberStyle) configMap.get("style");
-        NumberPos numberPos = (NumberPos) configMap.get("pos");
-        myStyle = getNumberStyle(numberStyle);
-        myPos = getNumberPos(numberPos);
-    }
-
-
     private void drawBack(PdfCanvas canvas, Rec rec) {
+//        canvas.setFillColor(ColorConstants.YELLOW);
+
         canvas.setFillColor(ColorConstants.WHITE);
         canvas.rectangle(rec.x, rec.y, rec.width, rec.height);
         canvas.fill();
@@ -110,7 +112,7 @@ public class PageNumber extends MyTask {
     private String addPageNumber() {
         updateProgress(1, MAX_PROGRESS);
         updateMessage("处理中……");
-        String dstFile = getDstFile().toString(); //GetDstFile();
+        String dstFile = getDstFile().toString();
         try {
 
             PdfDocument pdfDoc = new PdfDocument(new PdfReader(srcFile), new PdfWriter(dstFile));

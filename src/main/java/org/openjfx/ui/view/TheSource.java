@@ -47,6 +47,8 @@ public class TheSource extends VBox {
             }
         });
         filelist.setOnDragDropped(dragEvent -> {
+            dragEvent.acceptTransferModes(TransferMode.ANY);
+            dragEvent.consume();
             List<File> files = dragEvent.getDragboard().getFiles();
             System.out.println("doppped" + files);
             this.setFiles(files);
