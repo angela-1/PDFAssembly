@@ -1,3 +1,6 @@
+/*
+  添加页码模块
+ */
 package org.openjfx.task.pagenumber;
 
 
@@ -19,14 +22,16 @@ import org.openjfx.domain.NumberPos;
 import org.openjfx.domain.NumberStyle;
 import org.openjfx.task.MyTask;
 
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 
 public class PageNumber extends MyTask {
+
 
     private static final int MAX_PROGRESS = 100;
 
@@ -36,65 +41,43 @@ public class PageNumber extends MyTask {
 
 
     public PageNumber(ContextConfig config) {
-        List<String> source = (List<String>) config.get().get("source");
+        List<String> source = new ArrayList<>();
+        Object sourceObj = config.getContext().get("source");
+        if (sourceObj instanceof List<?>) {
+            for (Object o : (List<?>) sourceObj) {
+                source.add((String) o);
+            }
+        }
         srcFile = source.get(0);
-        Map<String, Object> configMap = (Map<String, Object>) config.get().get("config");
+        Object configObj = config.getContext().get("config");
+        Map<String, Object> configMap = new HashMap<>();
+        if (configObj instanceof Map) {
+            for (Object o : ((Map<?, ?>) configObj).keySet()) {
+                String key = (String) o;
+                configMap.put(key, ((Map<?, ?>) configObj).get(key));
+            }
+        }
+
         NumberStyle numberStyle = (NumberStyle) configMap.get("style");
         NumberPos numberPos = (NumberPos) configMap.get("pos");
-        myStyle = getNumberStyle(numberStyle);
-        myPos = getNumberPos(numberPos);
+        myStyle = NumberFactory.getNumberStyle(numberStyle);
+        myPos = NumberFactory.getNumberPos(numberPos);
     }
 
+    /**
+     * 获取目标文件路径
+     * @return 目标文件路径
+     */
     private Path getDstFile() {
         Path file = Paths.get(srcFile);
         Path dir = file.getParent();
         Path filename = file.getFileName();
-        return Paths.get(dir.toString(), filename + "_" + myStyle.getName()
-                + "_" + myPos.getName() + "_添加页码.pdf");
-    }
-
-    private MyStyle getNumberStyle(NumberStyle numberStyle) {
-        MyStyle style = null;
-        switch (numberStyle) {
-            case Normal:
-                style = new NormalStyle();
-                break;
-            case Collection:
-                style = new CollectionStyle();
-                break;
-            case Total:
-                style = new TotalStyle();
-                break;
-            case Decorator:
-                style = new DecoratorStyle();
-                break;
-            default:
-                style = new NormalStyle();
-        }
-        return style;
-    }
-
-    private MyPos getNumberPos(NumberPos numberPosu) {
-        MyPos pos = null;
-        switch (numberPosu) {
-            case Center:
-                pos = new CenterPos();
-                break;
-            case Corner:
-                pos = new CornerPos();
-                break;
-            case Side:
-                pos = new SidePos();
-                break;
-            default:
-                pos = new CenterPos();
-        }
-        return pos;
+        String name = filename.toString().split("\\.")[0];
+        return Paths.get(dir.toString(), name + "_添加页码_" + myStyle.getName()
+                + "_" + myPos.getName() + ".pdf");
     }
 
     private void drawBack(PdfCanvas canvas, Rec rec) {
-//        canvas.setFillColor(ColorConstants.YELLOW);
-
         canvas.setFillColor(ColorConstants.WHITE);
         canvas.rectangle(rec.x, rec.y, rec.width, rec.height);
         canvas.fill();
@@ -114,7 +97,6 @@ public class PageNumber extends MyTask {
         updateMessage("处理中……");
         String dstFile = getDstFile().toString();
         try {
-
             PdfDocument pdfDoc = new PdfDocument(new PdfReader(srcFile), new PdfWriter(dstFile));
             Document doc = new Document(pdfDoc);
             int totalPage = pdfDoc.getNumberOfPages();
@@ -132,7 +114,9 @@ public class PageNumber extends MyTask {
 
         } catch (Exception e) {
             e.printStackTrace();
+            failed();
         }
+        done();
         updateProgress(MAX_PROGRESS, MAX_PROGRESS);
         updateMessage("完成");
         return dstFile;

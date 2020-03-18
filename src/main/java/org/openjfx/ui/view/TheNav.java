@@ -62,7 +62,7 @@ public class TheNav extends JFXListView<Label> {
         pageNumberLabel.setId("pagenumber");
         pageNumberLabel.setGraphic(getImage("/img/pagenumber.png"));
 
-        setPadding(new Insets(8, 0, 0, 0));
+        setPadding(new Insets(16, 0, 0, 0));
         getItems().addAll(mergeLabel, convertLabel, tocLabel, pageNumberLabel);
         getSelectionModel().select(0);
         setOnMouseClicked(mouseEvent -> {

@@ -44,7 +44,7 @@ public class PageNumberConfig extends VBox implements MyConfig {
         });
 
         GridPane gridPane = new GridPane();
-        gridPane.setVgap(8);
+        gridPane.setVgap(16);
         gridPane.setHgap(16);
 
         gridPane.add(normalRadio, 0, 0);
@@ -78,7 +78,7 @@ public class PageNumberConfig extends VBox implements MyConfig {
         Label style = new Label("样式");
         Label pos = new Label("位置");
 
-        this.setSpacing(8);
+        this.setSpacing(16);
         this.getChildren().addAll(style, gridPane, pos, posHbox);
     }
 

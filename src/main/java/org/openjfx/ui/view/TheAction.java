@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Pos;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 
@@ -14,17 +15,6 @@ public class TheAction extends HBox {
     public TheAction() {
         runButton = new JFXButton("运行");
         runButton.getStyleClass().addAll("button-raised", "action-button");
-
-        // move outside below
-//        runButton.setOnMouseClicked(mouseEvent -> {
-//            this.run();
-//            System.out.println("source " + this.source.get());
-//            System.out.println("config " + this.configProp.get());
-//        });
-
-//        this.source.addListener((observable, oldValue, newValue) -> {
-//            runButton.setDisable(newValue.size() <= 0);
-//        });
 
         SimpleDoubleProperty progress = new SimpleDoubleProperty(this, "progress", 0);
         progressBar = new ProgressBar();
@@ -40,6 +30,8 @@ public class TheAction extends HBox {
         this.getChildren().addAll(runButton, progressBar);
 
     }
+
+
 
     public JFXButton getRunButton() {
         return runButton;

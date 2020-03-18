@@ -35,7 +35,7 @@ public class MainApp extends Application {
 
         // content
         VBox contentVbox = new VBox();
-        contentVbox.setPadding(new Insets(8, 8, 8, 8));
+        contentVbox.setPadding(new Insets(16, 16, 16, 16));
         contentVbox.setSpacing(8.0);
 
         // source

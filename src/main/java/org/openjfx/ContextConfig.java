@@ -23,7 +23,7 @@ public class ContextConfig {
         config = null;
     }
 
-    public Map<String, Object> get() {
+    public Map<String, Object> getContext() {
         Map<String, Object> configMap = new HashMap<String, Object>();
         configMap.put("task", taskProp.get());
         configMap.put("source", sourceProp.get());
@@ -32,7 +32,7 @@ public class ContextConfig {
     }
     @Override
     public String toString() {
-        return get().toString();
+        return getContext().toString();
     }
 
     public String getTaskProp() {

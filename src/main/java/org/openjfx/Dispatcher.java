@@ -10,7 +10,7 @@ import org.openjfx.task.pagenumber.PageNumber;
 public class Dispatcher {
 
     public static MyTask getTask(ContextConfig config) {
-        String taskName = config.get().get("task").toString();
+        String taskName = config.getContext().get("task").toString();
         MyTask task = null;
         switch (taskName) {
             case "merge":
