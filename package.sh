@@ -7,7 +7,7 @@ TIMESTAMP=$(date "+%Y%m%d_%H%M%S")
 DIST=${OUTPUTDIR}/${TIMESTAMP}
 
 mvn clean package
-jpackage.exe --name $PROJECT_NAME --type app-image \
+jpackage --name $PROJECT_NAME --type app-image \
 --input shade --main-jar pdfassembly.jar --dest $DIST
 
 
