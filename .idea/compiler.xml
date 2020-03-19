@@ -6,11 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="hellofx" />
+        <module name="pdfassembly" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="hellofx" target="14" />
+      <module name="pdfassembly" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>
