@@ -1,4 +1,56 @@
+.root {
+  -fx-font-family: "思源黑体";
+  src: "/resources/font/SourceHanSansCN-Regular.otf";
+}
+
+
 .h2 {
   -fx-font-size: 14px;
   -fx-padding: 0 0 8px 0;
+}
+
+.logo {
+  -fx-font-size: 16px;
+}
+
+.button {
+  -fx-border-width: 1;
+  -fx-background-color: #fff;
+  -fx-background-radius: 0px;
+  -fx-background-insets: 0;
+  -fx-cursor: hand;
+  -fx-text-fill: rgb(50, 49, 48);
+  -fx-border-color: rgb(138, 136, 134);
+}
+
+.button:hover {
+  -fx-background-color: #ccc;
+}
+
+.my-header {
+  -fx-background-color: #f66d31;
+}
+
+.my-list-view {
+  -fx-background-insets: 0;
+}
+
+.my-list-view .list-cell {
+  -fx-cell-size: 36px;
+  -fx-font-size: 16px;
+  -fx-cursor: hand;
+}
+
+
+.my-list-view .list-cell:odd,
+.my-list-view .list-cell:even {
+  -fx-background-color: WHITE;
+}
+
+.my-list-view .list-cell:selected {
+  -fx-background-color: rgba(246, 109, 49, 0.2);
+}
+
+.my-list-view .list-cell:selected>.label {
+  -fx-text-fill: #f66d31;
 }

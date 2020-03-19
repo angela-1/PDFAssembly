@@ -32,6 +32,7 @@ public class Nav extends ListView<Label> {
         pageNumberLabel.setGraphic(Utils.getImageView("/image/pagenumber.png", 20));
 
         getItems().addAll(mergeLabel, convertLabel, tocLabel, pageNumberLabel);
+        getStyleClass().add("my-list-view");
 
         getSelectionModel().select(0);
         setOnMouseClicked(mouseEvent -> {

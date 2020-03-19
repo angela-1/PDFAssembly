@@ -14,10 +14,13 @@ public class Header extends HBox {
 
     public Header() {
         setAlignment(Pos.CENTER);
+        setSpacing(8);
         setPadding(new Insets(8));
+        this.getStyleClass().add("my-header");
 
         ImageView logo = Utils.getImageView("/merge.png", 36);
         Label logoLabel = new Label("PDFAssembly");
+        logoLabel.getStyleClass().add("logo");
 
         getChildren().addAll(logo, logoLabel);
 
