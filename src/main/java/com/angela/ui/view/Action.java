@@ -20,6 +20,7 @@ public class Action extends VBox {
         textProp = new SimpleStringProperty("就绪");
 
         runButton = new Button("运行");
+        runButton.getStyleClass().add("action-button");
 
         progressBar = new ProgressBar();
         progressBar.visibleProperty().bind(textProp.isEqualTo("处理中……"));

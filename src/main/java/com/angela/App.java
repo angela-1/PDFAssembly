@@ -307,8 +307,8 @@ public class App extends Application {
         JMetro jMetro = new JMetro(Style.LIGHT);
         jMetro.setScene(scene);
         
-//        scene.getStylesheets()
-//                .add(getClass().getResource("/css/style.css").toExternalForm());
+        scene.getStylesheets()
+                .add(getClass().getResource("/css/title-bar.css").toExternalForm());
         stage.initStyle(StageStyle.UNDECORATED);
         stage.setScene(scene);
         stage.show();

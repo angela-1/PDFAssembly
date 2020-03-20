@@ -16,7 +16,7 @@ public class MergeConfig extends VBox implements MyConfig {
 
     public MergeConfig() {
         this.addWhitePageProp = new SimpleBooleanProperty(false);
-        this.keepBookmarkProp = new SimpleBooleanProperty(true);
+        this.keepBookmarkProp = new SimpleBooleanProperty(false);
         this.samePageProp = new SimpleBooleanProperty(false);
 
         CheckBox addWhitePage = new CheckBox("若页数为单数则添加一个空白页");

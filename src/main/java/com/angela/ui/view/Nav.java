@@ -5,12 +5,14 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
-public class Nav extends ListView<Label> {
+public class Nav extends VBox {
     private final SimpleStringProperty selected;
 
     public Nav() {
+        getStyleClass().add("nav-bar");
 //        setPadding(new Insets(16, 0, 0, 0));
 
         selected = new SimpleStringProperty("merge");
@@ -31,15 +33,22 @@ public class Nav extends ListView<Label> {
         pageNumberLabel.setId("pagenumber");
         pageNumberLabel.setGraphic(Utils.getImageView("/image/pagenumber.png", 20));
 
-        getItems().addAll(mergeLabel, convertLabel, tocLabel, pageNumberLabel);
-        getStyleClass().add("my-list-view");
+        ListView<Label> navList = new ListView<>();
 
-        getSelectionModel().select(0);
-        setOnMouseClicked(mouseEvent -> {
-            String id = getSelectionModel().getSelectedItem().getId();
+        navList.getItems().addAll(mergeLabel, convertLabel, tocLabel, pageNumberLabel);
+        navList.getStyleClass().add("my-list-view");
+
+        navList.getSelectionModel().select(0);
+        navList.setOnMouseClicked(mouseEvent -> {
+            String id = navList.getSelectionModel().getSelectedItem().getId();
             selected.set(id);
             System.out.println("nav to " + id);
         });
+
+        VBox white = new VBox();
+        white.getChildren().add(new Label("cnie"));
+        getChildren().addAll(navList, white);
+        VBox.setVgrow(white, Priority.ALWAYS);
     }
 
     public String getSelected() {

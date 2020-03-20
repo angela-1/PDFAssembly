@@ -19,10 +19,7 @@ public class TitleBar extends VBox {
     private final Button closeButton;
 
     public TitleBar() {
-        getStylesheets()
-                .add(getClass().getResource("/css/title-bar.css").toExternalForm());
 
-        setPadding(new Insets(0));
         getStyleClass().add("title-bar");
 
         GridPane gridPane = new GridPane();
@@ -34,10 +31,10 @@ public class TitleBar extends VBox {
         GridPane.setMargin(logo, new Insets(2, 8, 2, 8));
 
         Label label = new Label("PDFAssembly");
-//        label.setStyle("-fx-font-size: 14px");
         label.setFont(Font.font(14));
 
-        closeButton = new Button("X");
+        closeButton = new Button();
+        closeButton.setGraphic(Utils.getImageView("/image/close.png", 24));
         closeButton.getStyleClass().add("title-button");
         GridPane.setMargin(closeButton, new Insets(0));
         gridPane.setAlignment(Pos.CENTER_LEFT);

@@ -1,5 +1,8 @@
 package com.angela.ui.view;
 
+import com.angela.Context;
+import com.angela.Dispatcher;
+import com.angela.task.MyTask;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -8,11 +11,14 @@ import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Separator;
 import javafx.scene.control.SplitPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.util.Map;
 
 public class Frame extends BorderPane {
 
@@ -30,7 +36,11 @@ public class Frame extends BorderPane {
     private double xOffset = 0, yOffset = 0;//自定义dialog移动横纵坐标
 
 
+    private final Context context;
+
     public Frame(Stage stage) {
+
+        context = new Context();
 
         TitleBar titleBar = new TitleBar();
         Button closeButton = titleBar.getCloseButton();
@@ -41,14 +51,39 @@ public class Frame extends BorderPane {
         SplitPane splitPane = new SplitPane();
 
         Nav nav = new Nav();
+        nav.setMaxWidth(220);
+        nav.setMinWidth(160);
+        context.taskPropProperty().bind(nav.selectedProperty());
+
+        VBox contentVbox = new VBox();
+        contentVbox.setPadding(new Insets(8));
+        contentVbox.setSpacing(8.0);
+
+        Source source = new Source();
+        context.sourcePropProperty().bind(source.sourceProperty());
+
         Content content = new Content();
+        content.selectedProperty().bind(nav.selectedProperty());
 
-        VBox leftControl = new VBox(nav);
-        leftControl.setMaxWidth(200);
-        leftControl.setMinWidth(120);
-        VBox rightControl = new VBox(content);
+        Action action = new Action();
+        action.getRunButton().disableProperty().bind(source.sourceProperty().emptyProperty());
+        action.getRunButton().setOnMouseClicked(mouseEvent -> {
+            Map<String, Object> configMap = content.getConfig();
+            System.out.println("click action");
+            context.setConfig(configMap);
+            MyTask task = Dispatcher.run(context);
+            new Thread(task).start();
+            action.getProgressBar().progressProperty().bind(task.progressProperty());
+            action.textPropProperty().bind(task.messageProperty());
+        });
 
-        splitPane.getItems().addAll(leftControl, rightControl);
+        Separator separator = new Separator();
+
+        contentVbox.getChildren().addAll(source, content, separator, action);
+
+
+        splitPane.getItems().addAll(nav, contentVbox);
+
         splitPane.setDividerPositions(0.2f, 0.8f);
 
         VBox body = new VBox();
@@ -85,7 +120,6 @@ public class Frame extends BorderPane {
             double height = stage.getHeight();
             Cursor cursorType = Cursor.DEFAULT;// 鼠标光标初始为默认类型，若未进入调整窗口状态，保持默认类型
             // 先将所有调整窗口状态重置
-            System.out.println("x y" + x + " " + y);
             isRight = isBottomRight = isBottom = false;
             if (y >= height - RESIZE_WIDTH) {
                 if (x <= RESIZE_WIDTH) {// 左下角调整窗口状态
