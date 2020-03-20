@@ -4,10 +4,12 @@ import com.angela.Context;
 import com.angela.Dispatcher;
 import com.angela.SystemInfo;
 import com.angela.task.MyTask;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Separator;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
@@ -15,9 +17,15 @@ import java.util.Map;
 
 public class MainPane extends BorderPane {
 
-    private Context context;
+    private final Context context;
 
     public MainPane() {
+        setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                System.out.println("mout drag");
+            }
+        });
         context = new Context();
 
         // main pane
@@ -57,7 +65,9 @@ public class MainPane extends BorderPane {
 
 
         Header header = new Header();
-        setTop(header);
+        TitleBar titleBar = new TitleBar();
+//        setTop(header);
+        setTop(titleBar);
 
         var javaVersion = SystemInfo.javaVersion();
         var javafxVersion = SystemInfo.javafxVersion();
