@@ -1,0 +1,17 @@
+.title-bar {
+  -fx-background-color: #e5e5e5;
+}
+
+.title-button {
+  -fx-border-style: none;
+  /*-fx-border-insets: 0;*/
+  -fx-padding: 8px 18px;
+  -fx-background-insets: 0;
+  -fx-background-color: transparent;
+}
+
+.title-button:hover {
+  /*-fx-border-insets: 0;*/
+  -fx-background-insets: 0;
+  -fx-background-color: #f00;
+}
