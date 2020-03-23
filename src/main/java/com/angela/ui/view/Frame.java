@@ -79,7 +79,7 @@ public class Frame extends BorderPane {
 
         Separator separator = new Separator();
 
-        contentVbox.getChildren().addAll(source, content, separator, action);
+        contentVbox.getChildren().addAll(titleBar, source, content, separator, action);
 
 
         splitPane.getItems().addAll(nav, contentVbox);
@@ -112,7 +112,7 @@ public class Frame extends BorderPane {
             }
         });
 
-        setOnMouseMoved((MouseEvent event) -> {
+        contentVbox.setOnMouseMoved((MouseEvent event) -> {
             event.consume();
             double x = event.getSceneX();
             double y = event.getSceneY();
@@ -140,7 +140,7 @@ public class Frame extends BorderPane {
             setCursor(cursorType);
         });
 
-        setOnMouseDragged((MouseEvent event) -> {
+        contentVbox.setOnMouseDragged((MouseEvent event) -> {
 
             //根据鼠标的横纵坐标移动dialog位置
             event.consume();
@@ -180,7 +180,7 @@ public class Frame extends BorderPane {
 
         });
         //鼠标点击获取横纵坐标
-        setOnMousePressed(event -> {
+        contentVbox.setOnMousePressed(event -> {
             event.consume();
             xOffset = event.getSceneX();
             if (event.getSceneY() > 46) {
