@@ -1,19 +1,22 @@
 package com.angela.ui.view;
 
 import com.angela.Utils;
+import com.jfoenix.controls.JFXListView;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 
 public class Nav extends VBox {
     private final SimpleStringProperty selected;
 
     public Nav() {
+        Font font = Font.loadFont(getClass().getResource("/font/SourceHanSansCN-Regular.otf").toExternalForm(), 16);
+
         getStyleClass().add("nav-bar");
-//        setPadding(new Insets(16, 0, 0, 0));
 
         selected = new SimpleStringProperty("merge");
 
@@ -33,7 +36,7 @@ public class Nav extends VBox {
         pageNumberLabel.setId("pagenumber");
         pageNumberLabel.setGraphic(Utils.getImageView("/image/pagenumber.png", 20));
 
-        ListView<Label> navList = new ListView<>();
+        JFXListView<Label> navList = new JFXListView<>();
 
         navList.getItems().addAll(mergeLabel, convertLabel, tocLabel, pageNumberLabel);
         navList.getStyleClass().add("my-list-view");

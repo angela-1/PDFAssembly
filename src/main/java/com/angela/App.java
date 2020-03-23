@@ -1,33 +1,11 @@
 package com.angela;
 
 import com.angela.ui.view.Frame;
-import com.angela.ui.view.MainPane;
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Cursor;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import jfxtras.styles.jmetro.JMetro;
-import jfxtras.styles.jmetro.MDL2IconFont;
-import jfxtras.styles.jmetro.Style;
 
 /**
  * JavaFX App
@@ -304,11 +282,9 @@ public class App extends Application {
 //        var scene = new Scene(mainPane, 640, 480);
         Frame frame = new Frame(stage);
         var scene = new Scene(frame, 640, 480);
-        JMetro jMetro = new JMetro(Style.LIGHT);
-        jMetro.setScene(scene);
-        
+
         scene.getStylesheets()
-                .add(getClass().getResource("/css/title-bar.css").toExternalForm());
+                .add(getClass().getResource("/css/style.css").toExternalForm());
         stage.initStyle(StageStyle.UNDECORATED);
         stage.setScene(scene);
         stage.show();
