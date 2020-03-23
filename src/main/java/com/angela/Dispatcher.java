@@ -3,6 +3,7 @@ package com.angela;
 
 import com.angela.task.MergeDoc;
 import com.angela.task.MyTask;
+import com.angela.task.convert.Converter;
 import com.angela.task.pagenumber.PageNumber;
 
 /**
@@ -17,9 +18,9 @@ public class Dispatcher {
             case "merge":
                 task = new MergeDoc();
                 break;
-//            case "convert":
-//                configName = "ConvertConfig";
-//                break;
+            case "convert":
+                task = new Converter(config);
+                break;
 //            case "toc":
 //                configName = "TocConfig";
 //                break;
