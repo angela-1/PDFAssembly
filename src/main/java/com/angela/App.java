@@ -3,7 +3,7 @@ package com.angela;
 import com.angela.ui.view.Frame;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.text.Font;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -285,7 +285,10 @@ public class App extends Application {
 
         scene.getStylesheets()
                 .add(getClass().getResource("/css/style.css").toExternalForm());
+
         stage.initStyle(StageStyle.UNDECORATED);
+        String logoUrl = this.getClass().getResource("/merge.png").toExternalForm();
+        stage.getIcons().add(new Image(logoUrl));
         stage.setScene(scene);
         stage.show();
     }

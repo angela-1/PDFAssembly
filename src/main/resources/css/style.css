@@ -5,8 +5,22 @@
   -fx-font-family: 'sans-serif';
 }
 
+.close-button {
+  -fx-border-width: 0;
+  -fx-border-insets: 0;
+  -fx-background-color: transparent;
+}
+
+.close-button:hover {
+  -fx-border-width: 0;
+  -fx-border-insets: 0;
+  -fx-background-color: #f00;
+}
+
+
 .my-list-view {
   -fx-background-insets: 0;
+  -fx-background-color: transparent;
 }
 
 .my-list-view .list-cell {
@@ -15,7 +29,17 @@
   -fx-cursor: hand;
 }
 
+
 .my-list-view .list-cell:odd,
 .my-list-view .list-cell:even {
-  -fx-background-color: WHITE;
+  -fx-background-color: transparent;
+}
+
+.my-list-view .list-cell:selected {
+  -fx-background-color: #f7f7f7;
+  -fx-cursor: default;
+}
+
+.my-list-view .list-cell:selected>.label {
+  -fx-text-fill: #f66d31;
 }

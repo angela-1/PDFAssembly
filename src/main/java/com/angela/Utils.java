@@ -17,9 +17,6 @@ public class Utils {
             case "merge":
                 str = "合并文件";
                 break;
-            case "convert":
-                str = "转换文件";
-                break;
             case "toc":
                 str = "提取目录";
                 break;

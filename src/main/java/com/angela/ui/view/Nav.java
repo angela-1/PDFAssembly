@@ -2,6 +2,7 @@ package com.angela.ui.view;
 
 import com.angela.Utils;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Priority;
@@ -11,18 +12,15 @@ public class Nav extends VBox {
     private final SimpleStringProperty selected;
 
     public Nav() {
-
-        getStyleClass().add("nav-bar");
+        setPadding(new Insets(16, 0,8,0));
+        setStyle("-fx-background-color: #e5e5e5;");
+        setPrefWidth(180);
 
         selected = new SimpleStringProperty("merge");
 
         Label mergeLabel = new Label(Utils.getTitle("merge"));
         mergeLabel.setId("merge");
         mergeLabel.setGraphic(Utils.getImageView("/image/merge.png", 20));
-
-        Label convertLabel = new Label(Utils.getTitle("convert"));
-        convertLabel.setId("convert");
-        convertLabel.setGraphic(Utils.getImageView("/image/convert.png", 20));
 
         Label tocLabel = new Label(Utils.getTitle("toc"));
         tocLabel.setId("toc");
@@ -34,7 +32,7 @@ public class Nav extends VBox {
 
         ListView<Label> navList = new ListView<>();
 
-        navList.getItems().addAll(mergeLabel, convertLabel, tocLabel, pageNumberLabel);
+        navList.getItems().addAll(mergeLabel, tocLabel, pageNumberLabel);
         navList.getStyleClass().add("my-list-view");
 
         navList.getSelectionModel().select(0);

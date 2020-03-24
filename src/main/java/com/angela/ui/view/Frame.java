@@ -39,16 +39,13 @@ public class Frame extends BorderPane {
     private final Context context;
 
     public Frame(Stage stage) {
-
         context = new Context();
 
         TitleBar titleBar = new TitleBar();
         Button closeButton = titleBar.getCloseButton();
         closeButton.setOnAction(event -> stage.close());
 
-        setTop(titleBar);
-
-        SplitPane splitPane = new SplitPane();
+        titleBar.selectedProperty().bind(context.taskPropProperty());
 
         Nav nav = new Nav();
         nav.setMaxWidth(220);
@@ -56,9 +53,7 @@ public class Frame extends BorderPane {
         context.taskPropProperty().bind(nav.selectedProperty());
 
         VBox contentVbox = new VBox();
-        contentVbox.setPadding(new Insets(8));
-        contentVbox.setSpacing(8.0);
-
+        contentVbox.setStyle("-fx-background-color: #fff;");
         Source source = new Source();
         context.sourcePropProperty().bind(source.sourceProperty());
 
@@ -81,15 +76,8 @@ public class Frame extends BorderPane {
 
         contentVbox.getChildren().addAll(titleBar, source, content, separator, action);
 
-
-        splitPane.getItems().addAll(nav, contentVbox);
-
-        splitPane.setDividerPositions(0.2f, 0.8f);
-
-        VBox body = new VBox();
-        body.setPadding(new Insets(0, 8, 8, 0));
-        body.getChildren().add(splitPane);
-        setCenter(body);
+        setLeft(nav);
+        setCenter(contentVbox);
 
         stage.xProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null && !isMax) {

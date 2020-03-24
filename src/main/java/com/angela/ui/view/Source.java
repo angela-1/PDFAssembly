@@ -3,6 +3,7 @@ package com.angela.ui.view;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -22,6 +23,7 @@ public class Source extends VBox {
     private final Label total;
 
     public Source() {
+        setPadding(new Insets(8,16,8,16));
         setSpacing(8.0);
 
         source = new SimpleListProperty<String>(FXCollections.observableArrayList());
