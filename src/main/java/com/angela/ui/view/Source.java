@@ -35,14 +35,12 @@ public class Source extends VBox {
 
         fileList = new ListView<>();
         fileList.setOnDragOver(dragEvent -> {
-            if (dragEvent.getDragboard().hasFiles()) {
-                System.out.println("over");
-                dragEvent.acceptTransferModes(TransferMode.LINK);
-            }
+            dragEvent.acceptTransferModes(TransferMode.ANY);
+
         });
         fileList.setOnDragDropped(dragEvent -> {
+            System.out.println("cao");
             if (dragEvent.getDragboard().hasFiles()) {
-                dragEvent.acceptTransferModes(TransferMode.LINK);
                 List<File> files = dragEvent.getDragboard().getFiles();
                 System.out.println("doppped" + files);
                 this.setFiles(files);
