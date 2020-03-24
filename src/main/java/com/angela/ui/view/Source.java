@@ -35,8 +35,8 @@ public class Source extends VBox {
 
         fileList = new ListView<>();
         fileList.setOnDragOver(dragEvent -> {
-            System.out.println("over");
             if (dragEvent.getDragboard().hasFiles()) {
+                System.out.println("over");
                 dragEvent.acceptTransferModes(TransferMode.LINK);
             }
         });

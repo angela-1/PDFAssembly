@@ -40,9 +40,6 @@ public class Content extends VBox {
             case "merge":
                 node = new MergeConfig();
                 break;
-            case "convert":
-                node = new ConvertConfig();
-                break;
             case "toc":
                 node = new TocConfig();
                 break;
