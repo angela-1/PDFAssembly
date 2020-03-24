@@ -16,7 +16,7 @@ public class Content extends VBox {
     private Node node = null;
 
     public Content() {
-        setPadding(new Insets(8));
+        setPadding(new Insets(8,16,8,16));
 
         setConfig("merge");
         selected = new SimpleStringProperty("merge");

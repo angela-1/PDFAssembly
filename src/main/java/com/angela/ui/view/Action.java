@@ -2,6 +2,7 @@ package com.angela.ui.view;
 
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -17,6 +18,8 @@ public class Action extends VBox {
 
 
     public Action() {
+        setPadding(new Insets(8,16,8,16));
+
         textProp = new SimpleStringProperty("就绪");
 
         runButton = new Button("运行");

@@ -3,6 +3,12 @@
   -my-title-h1: 16px;
   -my-title-h2: 14px;
   -fx-font-family: 'sans-serif';
+  -my-focus-border-color: rgba(0, 0, 0, 0.2);
+}
+
+.h2 {
+  -fx-font-size: 14px;
+  -fx-padding: 0 0 8px 0;
 }
 
 .close-button {
@@ -15,6 +21,10 @@
   -fx-border-width: 0;
   -fx-border-insets: 0;
   -fx-background-color: #f00;
+}
+
+.action-button {
+  -fx-padding: 8px 16px;
 }
 
 
@@ -42,4 +52,68 @@
 
 .my-list-view .list-cell:selected>.label {
   -fx-text-fill: #f66d31;
+}
+
+/**
+ * Checkbox
+ */
+.check-box>.box {
+  -fx-background-color: -fx-text-box-border, -fx-control-inner-background;
+  -fx-background-insets: 0.0, 1.0;
+  -fx-background-radius: 2.0, 2.0;
+}
+
+.check-box:focused>.box {
+  -fx-background-color: -my-focus-border-color, -fx-text-box-border, -fx-control-inner-background;
+  -fx-background-insets: -1.0, 0.0, 1.0;
+  -fx-background-radius: 2.0, 2.0, 2.0;
+}
+
+.check-box:selected>.box {
+  -fx-background-color: -my-primary-color;
+  -fx-background-insets: 0.0;
+  -fx-background-radius: 2.0;
+}
+
+.check-box:focused:selected>.box {
+  -fx-background-color: -my-focus-border-color, -my-primary-color;
+  -fx-background-insets: -1.0, 0.0;
+  -fx-background-radius: 2.0, 2.0;
+}
+
+.check-box>.box>.mark {
+  -fx-padding: 0.333333em;
+}
+
+.check-box:selected>.box>.mark {
+  -fx-background-color: -fx-mark-highlight-color, white;
+}
+
+/**
+ * Radio
+ */
+.radio-button>.radio {
+  -fx-background-color: -fx-text-box-border, -fx-control-inner-background;
+  -fx-background-insets: 0.0, 1.0;
+  -fx-padding: 1.0;
+}
+
+.radio-button:focused>.radio {
+  -fx-background-color: -my-focus-border-color, -fx-text-box-border, -fx-control-inner-background;
+  -fx-background-insets: -1.0, 0.0, 1.0;
+}
+
+.radio-button:selected>.radio {
+  -fx-background-color: -my-primary-color;
+  -fx-background-insets: 0.0;
+}
+
+.radio-button:focused:selected>.radio {
+  -fx-background-color: -my-focus-border-color, -my-primary-color;
+  -fx-background-insets: -1.0, 0.0;
+}
+
+.radio-button:selected>.radio>.dot {
+  -fx-background-color: transparent;
+  -fx-background-insets: 0.0;
 }

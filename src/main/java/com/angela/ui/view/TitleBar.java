@@ -9,10 +9,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 
 public class TitleBar extends VBox {
@@ -24,16 +21,11 @@ public class TitleBar extends VBox {
     public TitleBar() {
         selected = new SimpleStringProperty("merge");
 
-        getStyleClass().add("title-bar");
+        HBox hbox = new HBox();
+        hbox.setAlignment(Pos.TOP_LEFT);
 
-
-        GridPane gridPane = new GridPane();
-//        gridPane.setPrefHeight(32);
-//        gridPane.setAlignment(Pos.BASELINE_CENTER);
-
-        ImageView logo = Utils.getImageView("/merge.png", 28);
-        logo.setFitHeight(28);
-        GridPane.setMargin(logo, new Insets(2, 8, 2, 16));
+        ImageView logo = Utils.getImageView("/merge.png", 24);
+        logo.setFitHeight(24);
 
         Label label = new Label(Utils.getTitle(selected.get()));
         label.setFont(Font.font(20));
@@ -46,17 +38,17 @@ public class TitleBar extends VBox {
 
 
         closeButton = new Button();
-        closeButton.setGraphic(Utils.getImageView("/image/close.png", 24));
+        closeButton.setGraphic(Utils.getImageView("/image/close.png", 16));
         closeButton.getStyleClass().add("close-button");
-        GridPane.setMargin(closeButton, new Insets(0));
-        gridPane.setAlignment(Pos.CENTER_LEFT);
 
-        gridPane.addColumn(0, logo);
-        gridPane.addColumn(1, label);
-        gridPane.addColumn(2, closeButton);
-        GridPane.setHgrow(label, Priority.ALWAYS);
+        HBox lefthbox = new HBox();
+        lefthbox.setAlignment(Pos.BASELINE_LEFT);
+        lefthbox.getChildren().addAll(logo, label);
+        lefthbox.setPadding(new Insets(8, 0, 8, 16));
+        hbox.getChildren().addAll(lefthbox, closeButton);
+        HBox.setHgrow(lefthbox, Priority.ALWAYS);
 
-        getChildren().add(gridPane);
+        getChildren().add(hbox);
     }
 
     public String getSelected() {
