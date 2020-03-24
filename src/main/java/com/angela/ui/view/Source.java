@@ -61,7 +61,6 @@ public class Source extends VBox {
         });
 
         Button clearButton = new Button("清空");
-        clearButton.getStyleClass().add("tool-button");
         clearButton.setOnMouseClicked(mouseEvent -> {
             source.clear();
             fileList.getItems().clear();

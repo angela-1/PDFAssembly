@@ -4,29 +4,17 @@
   -my-title-h2: 14px;
   -fx-font-family: 'sans-serif';
   -my-focus-border-color: rgba(0, 0, 0, 0.2);
+  -my-flat-bg-color: #EEEEEE;
+  -my-shadow-effect: dropshadow(gaussian, rgba(0.0, 0.0, 0.0, 0.2), 6.0, 0.0, 0.0, 4.0);
+  -fx-disabled-opacity: 0.3;
+  -my-light-border-color: #D4D4D4;
+  -my-dark-text-color: derive(-my-light-border-color, -70.0%);
 }
 
 .h2 {
   -fx-font-size: 14px;
   -fx-padding: 0 0 8px 0;
 }
-
-.close-button {
-  -fx-border-width: 0;
-  -fx-border-insets: 0;
-  -fx-background-color: transparent;
-}
-
-.close-button:hover {
-  -fx-border-width: 0;
-  -fx-border-insets: 0;
-  -fx-background-color: #f00;
-}
-
-.action-button {
-  -fx-padding: 8px 16px;
-}
-
 
 .my-list-view {
   -fx-background-insets: 0;
@@ -116,4 +104,70 @@
 .radio-button:selected>.radio>.dot {
   -fx-background-color: transparent;
   -fx-background-insets: 0.0;
+}
+
+
+/**
+ * Buttons
+ */
+.button,
+.button:default,
+.button:focused {
+  -fx-background-color: -my-focus-border-color, -my-flat-bg-color;
+  -fx-background-insets: 0.0, 0.5;
+  -fx-background-radius: 3.0;
+  -fx-text-fill: -my-dark-text-color !important;
+}
+
+.button:focused {
+  -fx-background-color: -my-focus-border-color, -my-flat-bg-color;
+  -fx-background-insets: 0.0, 1.0;
+}
+
+.button:hover {
+  -fx-background-color: -my-focus-border-color, #f7f7f7;
+  -fx-background-insets: 0, 0.5;
+}
+
+.button:disabled {
+  -fx-translate-y: -0.0;
+  -fx-opacity: -fx-disabled-opacity;
+  -fx-effect: none;
+}
+
+
+.progress-bar {
+   -fx-indeterminate-bar-escape: false;
+   -fx-indeterminate-bar-animation-time: 1.0;
+   -fx-max-height: 6px;
+   -fx-min-height: 6px;
+   -fx-pref-height: 6px;
+}
+
+.progress-bar>.bar {
+  -fx-background-color: -my-primary-color;
+  -fx-background-insets: 0.0;
+  -fx-background-radius: 2px;
+}
+
+.progress-bar>.track {
+  -fx-background-color: -my-flat-bg-color;
+  -fx-background-insets: 0.0;
+  -fx-background-radius: 2px;
+}
+
+.close-button {
+  -fx-border-width: 0;
+  -fx-border-insets: 0;
+  -fx-background-color: transparent;
+}
+
+.close-button:hover {
+  -fx-border-width: 0;
+  -fx-border-insets: 0;
+  -fx-background-color: #f00;
+}
+
+.action-button {
+  -fx-padding: 8px 16px;
 }

@@ -33,9 +33,6 @@ import java.util.Map;
 
 public class PageNumber extends MyTask {
 
-
-    private static final int MAX_PROGRESS = 100;
-
     private final String srcFile;
     private final MyStyle myStyle;
     private final MyPos myPos;
@@ -67,6 +64,7 @@ public class PageNumber extends MyTask {
 
     /**
      * 获取目标文件路径
+     *
      * @return 目标文件路径
      */
     private Path getDstFile() {
@@ -117,9 +115,11 @@ public class PageNumber extends MyTask {
             e.printStackTrace();
             failed();
         }
+
         done();
         updateProgress(MAX_PROGRESS, MAX_PROGRESS);
         updateMessage("完成");
+
         return dstFile;
     }
 

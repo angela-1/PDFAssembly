@@ -18,7 +18,7 @@ public class Action extends VBox {
 
 
     public Action() {
-        setPadding(new Insets(8,16,8,16));
+        setPadding(new Insets(8, 16, 8, 16));
 
         textProp = new SimpleStringProperty("就绪");
 
@@ -26,7 +26,10 @@ public class Action extends VBox {
         runButton.getStyleClass().add("action-button");
 
         progressBar = new ProgressBar();
-        progressBar.visibleProperty().bind(textProp.isEqualTo("处理中……"));
+        progressBar.visibleProperty().bind(
+                progressBar.progressProperty().greaterThan(0).and(
+                        progressBar.progressProperty().lessThan(1)
+                ));
 
         HBox toolBar = new HBox();
         toolBar.setSpacing(16.0);
