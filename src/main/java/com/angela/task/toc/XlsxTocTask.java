@@ -85,7 +85,6 @@ public class XlsxTocTask extends TocTask {
 
             XSSFPrintSetup printSetup = (XSSFPrintSetup) sheet1.getPrintSetup();
             printSetup.setPaperSize(XSSFPrintSetup.A4_PAPERSIZE);
-            printSetup.setLandscape(true);
 
             // Set the columns to repeat from column 0 to 2 on the first sheet
             Row row1 = sheet1.createRow(0);
@@ -131,7 +130,7 @@ public class XlsxTocTask extends TocTask {
             // Set the columns to repeat from column 0 to 2 on the first sheet
             // sheet1.setRepeatingColumns(CellRangeAddress.valueOf("A:C"));
             // Set the the repeating rows and columns on the second sheet.
-            CellRangeAddress rep = CellRangeAddress.valueOf("A2:C2");
+            CellRangeAddress rep = CellRangeAddress.valueOf("A3:C3");
             // sheet1.setRepeatingColumns(rep);
             sheet1.setRepeatingRows(rep);
 

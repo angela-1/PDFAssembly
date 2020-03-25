@@ -1,5 +1,6 @@
 package com.angela.ui.view;
 
+import com.angela.Utils;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -43,7 +44,7 @@ public class Source extends VBox {
             if (dragEvent.getDragboard().hasFiles()) {
                 List<File> files = dragEvent.getDragboard().getFiles();
                 System.out.println("doppped" + files);
-                this.setFiles(files);
+                this.setFiles(Utils.filter(files));
             }
         });
 
