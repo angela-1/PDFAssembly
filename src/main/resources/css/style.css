@@ -160,14 +160,36 @@
   -fx-border-width: 0;
   -fx-border-insets: 0;
   -fx-background-color: transparent;
+  -fx-background-insets: 0
 }
 
 .close-button:hover {
   -fx-border-width: 0;
   -fx-border-insets: 0;
   -fx-background-color: #f00;
+  -fx-background-insets: 0
 }
 
 .action-button {
   -fx-padding: 8px 16px;
+}
+
+.link-button {
+  -fx-border-width: 0;
+  -fx-border-insets: 0;
+  -fx-background-color: transparent;
+  -fx-background-insets: 0
+}
+
+.link-button:hover {
+  -fx-border-width: 0;
+  -fx-border-insets: 0;
+  -fx-background-color: -my-flat-bg-color;
+  -fx-background-insets: 0
+}
+.link-button:focused {
+  -fx-border-width: 0;
+  -fx-border-insets: 0;
+  -fx-background-color: -my-flat-bg-color;
+  -fx-background-insets: 0
 }
