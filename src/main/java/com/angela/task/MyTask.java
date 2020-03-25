@@ -10,7 +10,8 @@ public abstract class MyTask extends Task<String> {
     protected String call() throws Exception {
         updateMessage("处理中……");
         String result = runTask();
-        updateMessage("完成");
+        System.out.println("result " + result);
+        updateMessage("完成 结果位于：" + result);
         return result;
     }
 

@@ -26,6 +26,7 @@ public class Action extends VBox {
         runButton.getStyleClass().add("action-button");
 
         progressBar = new ProgressBar();
+        progressBar.setPrefWidth(100);
         progressBar.visibleProperty().bind(
                 progressBar.progressProperty().greaterThan(0).and(
                         progressBar.progressProperty().lessThan(1)
