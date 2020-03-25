@@ -5,9 +5,9 @@ import com.angela.task.MyTask;
 
 import java.io.IOException;
 
-public class Merger extends MyTask {
+public class MergeTask extends MyTask {
 
-    public Merger(Context config) {
+    public MergeTask(Context config) {
         System.out.println("merger constructor " + config.toString());
     }
 

@@ -1,7 +1,7 @@
 package com.angela.ui.config;
 
-import com.angela.domain.NumberPos;
-import com.angela.domain.NumberStyle;
+import com.angela.task.pagenumber.NumberPos;
+import com.angela.task.pagenumber.NumberStyle;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;

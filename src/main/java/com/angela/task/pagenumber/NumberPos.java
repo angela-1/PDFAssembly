@@ -1,4 +1,4 @@
-package com.angela.domain;
+package com.angela.task.pagenumber;
 
 public enum NumberPos {
     Center,

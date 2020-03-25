@@ -1,9 +1,6 @@
 package com.angela.task.pagenumber;
 
 
-import com.angela.domain.NumberPos;
-import com.angela.domain.NumberStyle;
-
 public class NumberFactory {
     public static MyStyle getNumberStyle(NumberStyle numberStyle) {
         MyStyle style = null;

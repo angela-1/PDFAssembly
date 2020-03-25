@@ -8,7 +8,12 @@ public abstract class MyTask extends Task<String> {
 
     @Override
     protected String call() throws Exception {
-        return this.runTask();
+        updateMessage("处理中……");
+        String result = runTask();
+
+        System.out.println("result" + getValue());
+        updateMessage("完成");
+        return result;
     }
 
     public abstract String runTask();

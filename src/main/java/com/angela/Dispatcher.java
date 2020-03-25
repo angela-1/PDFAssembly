@@ -3,8 +3,9 @@ package com.angela;
 
 import com.angela.task.MergeDoc;
 import com.angela.task.MyTask;
-import com.angela.task.merge.Merger;
-import com.angela.task.pagenumber.PageNumber;
+import com.angela.task.merge.MergeTask;
+import com.angela.task.pagenumber.PageNumberTask;
+import com.angela.task.toc.TocTask;
 
 /**
  * Dispatcher
@@ -16,13 +17,13 @@ public class Dispatcher {
         MyTask task = null;
         switch (taskName) {
             case "merge":
-                task = new Merger(config);
+                task = new MergeTask(config);
                 break;
-//            case "toc":
-//                configName = "TocConfig";
-//                break;
+            case "toc":
+                task = new TocTask(config);
+                break;
             case "pagenumber":
-                task = new PageNumber(config);
+                task = new PageNumberTask(config);
                 break;
             default:
                 task = new MergeDoc();

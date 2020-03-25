@@ -1,5 +1,6 @@
 package com.angela.ui.config;
 
+import com.angela.task.toc.TocFormat;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
@@ -10,18 +11,18 @@ import java.util.Map;
 
 public class TocConfig extends VBox implements MyConfig {
 
-    private String outputFormat;
+    private TocFormat outputFormat;
 
     public TocConfig() {
-        outputFormat = "xlsx";
+        outputFormat = TocFormat.Xlsx;
 
         final ToggleGroup group = new ToggleGroup();
         RadioButton xlsxRadio = new RadioButton("Excel(*.xlsx)");
-        xlsxRadio.setUserData("xlsx");
+        xlsxRadio.setUserData(TocFormat.Xlsx);
         RadioButton docxRadio = new RadioButton("Word(*.docx)");
-        docxRadio.setUserData("docx");
+        docxRadio.setUserData(TocFormat.Docx);
         RadioButton txtRadio = new RadioButton("文本文件(*.txt)");
-        txtRadio.setUserData("txt");
+        txtRadio.setUserData(TocFormat.Txt);
 
         xlsxRadio.setToggleGroup(group);
         xlsxRadio.setSelected(true);
@@ -30,7 +31,7 @@ public class TocConfig extends VBox implements MyConfig {
 
         group.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
             System.out.println("group listener " + newValue.getUserData().toString());
-            outputFormat = (String) newValue.getUserData();
+            outputFormat = (TocFormat) newValue.getUserData();
         });
 
         HBox hbox = new HBox();

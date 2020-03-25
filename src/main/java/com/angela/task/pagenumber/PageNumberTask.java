@@ -5,8 +5,6 @@ package com.angela.task.pagenumber;
 
 
 import com.angela.Context;
-import com.angela.domain.NumberPos;
-import com.angela.domain.NumberStyle;
 import com.angela.task.MyTask;
 import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.kernel.colors.ColorConstants;
@@ -31,14 +29,14 @@ import java.util.List;
 import java.util.Map;
 
 
-public class PageNumber extends MyTask {
+public class PageNumberTask extends MyTask {
 
     private final String srcFile;
     private final MyStyle myStyle;
     private final MyPos myPos;
 
 
-    public PageNumber(Context config) {
+    public PageNumberTask(Context config) {
         List<String> source = new ArrayList<>();
         Object sourceObj = config.getContext().get("source");
         if (sourceObj instanceof List<?>) {
@@ -67,13 +65,14 @@ public class PageNumber extends MyTask {
      *
      * @return 目标文件路径
      */
-    private Path getDstFile() {
+    private String getDstFile() {
         Path file = Paths.get(srcFile);
         Path dir = file.getParent();
         Path filename = file.getFileName();
         String name = filename.toString().split("\\.")[0];
-        return Paths.get(dir.toString(), name + "_添加页码_" + myStyle.getName()
+        Path dstFile = Paths.get(dir.toString(), name + "_添加页码_" + myStyle.getName()
                 + "_" + myPos.getName() + ".pdf");
+        return dstFile.toString();
     }
 
     private void drawBack(PdfCanvas canvas, Rec rec) {
@@ -93,8 +92,7 @@ public class PageNumber extends MyTask {
 
     private String addPageNumber() {
         updateProgress(1, MAX_PROGRESS);
-        updateMessage("处理中……");
-        String dstFile = getDstFile().toString();
+        String dstFile = getDstFile();
         try {
             PdfDocument pdfDoc = new PdfDocument(new PdfReader(srcFile), new PdfWriter(dstFile));
             Document doc = new Document(pdfDoc);
@@ -115,11 +113,8 @@ public class PageNumber extends MyTask {
             e.printStackTrace();
             failed();
         }
-
         done();
         updateProgress(MAX_PROGRESS, MAX_PROGRESS);
-        updateMessage("完成");
-
         return dstFile;
     }
 
