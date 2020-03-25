@@ -5,7 +5,7 @@ import com.angela.task.MergeDoc;
 import com.angela.task.MyTask;
 import com.angela.task.merge.MergeTask;
 import com.angela.task.pagenumber.PageNumberTask;
-import com.angela.task.toc.TocTask;
+import com.angela.task.toc.Toc;
 
 /**
  * Dispatcher
@@ -20,7 +20,7 @@ public class Dispatcher {
                 task = new MergeTask(config);
                 break;
             case "toc":
-                task = new TocTask(config);
+                task = Toc.getTask(config);
                 break;
             case "pagenumber":
                 task = new PageNumberTask(config);

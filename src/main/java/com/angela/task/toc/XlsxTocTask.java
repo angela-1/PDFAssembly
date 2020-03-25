@@ -1,6 +1,5 @@
 package com.angela.task.toc;
 
-import javafx.concurrent.Task;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFPrintSetup;
@@ -13,17 +12,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class XlsxToc extends MyToc {
+public class XlsxTocTask extends TocTask {
 
-    private final String srcFile;
-
-    public XlsxToc(String srcFile) {
-        this.srcFile = srcFile;
-    }
-
-    @Override
-    protected String call() throws Exception {
-        return generate(srcFile);
+    public XlsxTocTask(String srcFile) {
+        super(srcFile);
     }
 
     private static Map<String, CellStyle> createStyles(Workbook wb) {
@@ -75,7 +67,7 @@ public class XlsxToc extends MyToc {
     }
 
     private String generateReport(String dstFile, List<OutlineItem> outlines) {
-        updateProgress(1, 100);
+        updateProgress(1, MAX_PROGRESS);
         try (Workbook wb = new XSSFWorkbook()) { // or new HSSFWorkbook();
             Map<String, CellStyle> styles = createStyles(wb);
             /*
@@ -156,7 +148,7 @@ public class XlsxToc extends MyToc {
             try (FileOutputStream fileOut = new FileOutputStream(dstFile.toString())) {
                 wb.write(fileOut);
                 fileOut.close();
-                updateProgress(100, 100);
+                updateProgress(MAX_PROGRESS, MAX_PROGRESS);
                 done();
 
                 return dstFile;
@@ -167,11 +159,17 @@ public class XlsxToc extends MyToc {
         return null;
     }
 
+
     @Override
-    public String generate(String srcFile) {
-        String dstFile = getDstFile(srcFile, "xlsx");
+    public String generate() {
+        String dstFile = getDstFile("xlsx");
         System.out.println("generate xlsx toc" + dstFile);
-        parseToc(srcFile);
+        parseToc();
         return generateReport(dstFile, outlines);
+    }
+
+    @Override
+    public String runTask() {
+        return generate();
     }
 }

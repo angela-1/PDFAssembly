@@ -1,64 +1,79 @@
 package com.angela.task.toc;
 
-import com.angela.Context;
 import com.angela.task.MyTask;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.concurrent.WorkerStateEvent;
-import javafx.event.EventHandler;
+import com.itextpdf.kernel.pdf.*;
 
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TocTask extends MyTask {
+public abstract class TocTask extends MyTask {
+
+    public static class OutlineItem {
+        public String title;
+        public int page;
+    }
+
 
     private final String srcFile;
-    private final TocFormat tocFormat;
+    protected List<OutlineItem> outlines;
 
-    public TocTask(Context config) {
-        System.out.println("toc constructor " + config.toString());
+    public TocTask(String srcFile) {
+        this.srcFile = srcFile;
+        this.outlines = null;
+    }
 
-        List<String> source = new ArrayList<>();
-        Object sourceObj = config.getContext().get("source");
-        if (sourceObj instanceof List<?>) {
-            for (Object o : (List<?>) sourceObj) {
-                source.add((String) o);
-            }
+    protected void parseToc() {
+        outlines = new ArrayList<OutlineItem>();
+        PdfDocument pdfDoc = null;
+        try {
+            pdfDoc = new PdfDocument(new PdfReader(srcFile));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        srcFile = source.get(0);
-        Object configObj = config.getContext().get("config");
-        Map<String, Object> configMap = new HashMap<>();
-        if (configObj instanceof Map) {
-            for (Object o : ((Map<?, ?>) configObj).keySet()) {
-                String key = (String) o;
-                configMap.put(key, ((Map<?, ?>) configObj).get(key));
-            }
+
+        PdfOutline pdfOutline = null;
+        if (pdfDoc != null) {
+            pdfOutline = pdfDoc.getOutlines(false);
+            PdfNameTree destsTree = pdfDoc.getCatalog().getNameTree(PdfName.Dests);
+
+            getBookmark(pdfOutline, destsTree.getNames(), pdfDoc);
+            pdfDoc.close();
         }
-        tocFormat = (TocFormat) configMap.get("outputFormat");
     }
 
+    protected void getBookmark(PdfOutline outline, Map<String, PdfObject> names, PdfDocument pdfDoc) {
 
-    private String generateToc() {
-        MyToc myToc = TocFactory.getTocFormat(srcFile, tocFormat);
-        new Thread(myToc).start();
-        myToc.progressProperty().addListener((observableValue, number, t1) -> {
-            System.out.println("lis1 t1 " + t1.doubleValue());
-            if (myToc.isRunning()) {
-                updateProgress(MAX_PROGRESS * t1.doubleValue(), MAX_PROGRESS);
-            } else {
-                System.out.println("lis2");
-                done();
-                updateProgress(MAX_PROGRESS, MAX_PROGRESS);
-            }
+        if (outline.getDestination() != null) {
+            OutlineItem outlineItem = new OutlineItem();
+            outlineItem.title = outline.getTitle();
+            PdfObject pageNumber = outline.getDestination()
+                    .getDestinationPage(names);
+            outlineItem.page = pdfDoc.getPageNumber(
+                    pdfDoc.getPage((PdfDictionary) pageNumber));
+            outlines.add(outlineItem);
+        }
 
-        });
-        return myToc.getValue();
+        for (var child : outline.getAllChildren()) {
+            getBookmark(child, names, pdfDoc);
+        }
     }
 
-    @Override
-    public String runTask() {
-        return generateToc();
+    protected Path getTocName(String srcFile, String ext) {
+        Path file = Paths.get(srcFile);
+        Path dir = file.getParent();
+        Path filename = file.getFileName();
+        String name = filename.toString().split("\\.")[0];
+        return Paths.get(dir.toString(), name + "_目录." + ext);
     }
+
+    public String getDstFile(String extension) {
+        return getTocName(srcFile, extension).toString();
+    }
+
+    public abstract String generate();
+
 }

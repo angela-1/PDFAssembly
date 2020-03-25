@@ -5,46 +5,41 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.nio.file.attribute.FileAttribute;
-import java.nio.file.attribute.FileAttributeView;
 
-public class TxtToc extends MyToc {
+public class TxtTocTask extends TocTask {
 
-    private final String srcFile;
-
-    public TxtToc(String srcFile) {
-        this.srcFile = srcFile;
+    public TxtTocTask(String srcFile) {
+        super(srcFile);
     }
 
     @Override
-    protected String call() throws Exception {
-        return generate(srcFile);
-    }
-
-    @Override
-    public String generate(String srcFile) {
-        updateProgress(1, 100);
-        String dstFile = getDstFile(srcFile, "txt");
+    public String generate() {
+        updateProgress(1, MAX_PROGRESS);
+        String dstFile = getDstFile("txt");
         System.out.println("generate toc" + dstFile);
-        parseToc(srcFile);
+        parseToc();
         try {
             Files.deleteIfExists(Paths.get(dstFile));
             Files.createFile(Paths.get(dstFile));
             BufferedWriter writer = Files.newBufferedWriter(
                     Paths.get(dstFile), StandardCharsets.UTF_8);
-            for (var line : outlines)
-            {
+            for (var line : outlines) {
                 updateProgress(outlines.indexOf(line), outlines.size());
                 writer.write(line.title + '\t' + line.page + '\n');
             }
             writer.flush();
             writer.close();
-            updateProgress(100, 100);
+            updateProgress(MAX_PROGRESS, MAX_PROGRESS);
             done();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
         return dstFile;
+    }
+
+    @Override
+    public String runTask() {
+        return generate();
     }
 }
