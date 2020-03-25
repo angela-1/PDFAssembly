@@ -1,9 +1,8 @@
 package com.angela.ui.view;
 
+import com.angela.App;
 import com.angela.Utils;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -11,11 +10,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-
-import java.awt.*;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 public class Nav extends VBox {
     private final SimpleStringProperty selected;
@@ -58,23 +52,16 @@ public class Nav extends VBox {
         help.setGraphic(Utils.getImageView("/image/help.png", 16));
         help.getStyleClass().add("link-button");
         help.setOnAction(actionEvent -> {
-            try {
-                String readme = getClass().getResource("/README.html").toExternalForm();
-                Desktop.getDesktop().browse(new URI(readme));
-            } catch (IOException | URISyntaxException e) {
-                e.printStackTrace();
-            }
+            String readme = getClass().getResource("/README.html").toExternalForm();
+            App.getInstance().getHostServices().showDocument(readme);
         });
 
         Button github = new Button();
         github.setGraphic(Utils.getImageView("/image/github.png", 16));
         github.getStyleClass().add("link-button");
         github.setOnAction(actionEvent -> {
-            try {
-                Desktop.getDesktop().browse(new URI("https://github.com/angela-1/PDFAssembly"));
-            } catch (IOException | URISyntaxException e) {
-                e.printStackTrace();
-            }
+            String repo = "https://github.com/angela-1/PDFAssembly";
+            App.getInstance().getHostServices().showDocument(repo);
         });
 
         links.getChildren().addAll(help, github);

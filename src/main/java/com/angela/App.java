@@ -11,6 +11,11 @@ import javafx.stage.StageStyle;
  * JavaFX App
  */
 public class App extends Application {
+    private static App mInstance;
+
+    public static App getInstance() {
+        return mInstance;
+    }
 
 //    private double x = 0.00;
 //    private double y = 0.00;
@@ -278,6 +283,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
+        mInstance = this;
 //        MainPane mainPane = new MainPane();
 //        var scene = new Scene(mainPane, 640, 480);
         Frame frame = new Frame(stage);
