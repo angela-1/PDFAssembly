@@ -39,7 +39,7 @@ public class Utils {
         return str;
     }
 
-    public static List<File> filter(List<File> list) {
+    public static List<String> filter(List<String> list) {
         Set<String> supportFormat = new HashSet<>();
         supportFormat.add("pdf");
         supportFormat.add("png");
@@ -47,7 +47,7 @@ public class Utils {
         supportFormat.add("jpg");
 
         return list.stream().filter(v -> {
-            Path f = Paths.get(v.toString());
+            Path f = Paths.get(v);
             if (Files.isDirectory(f)) {
                 return true;
             } else {
@@ -57,7 +57,6 @@ public class Utils {
                 System.out.println("filter" + f + extension);
                 return supportFormat.contains(extension);
             }
-
         }).collect(Collectors.toList());
     }
 }

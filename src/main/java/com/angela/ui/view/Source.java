@@ -14,6 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,7 +25,7 @@ public class Source extends VBox {
     private final Label total;
 
     public Source() {
-        setPadding(new Insets(8,16,8,16));
+        setPadding(new Insets(8, 16, 8, 16));
         setSpacing(8.0);
 
         source = new SimpleListProperty<String>(FXCollections.observableArrayList());
@@ -45,7 +46,7 @@ public class Source extends VBox {
             if (dragEvent.getDragboard().hasFiles()) {
                 List<File> files = dragEvent.getDragboard().getFiles();
                 System.out.println("doppped" + files);
-                this.setFiles(Utils.filter(files));
+                setFiles(Utils.filter(files.stream().map(File::toString).collect(Collectors.toList())));
             }
         });
 
@@ -57,7 +58,7 @@ public class Source extends VBox {
         addButton.setOnMouseClicked(mouseEvent -> {
             List<File> selectedFile = fileChooser.showOpenMultipleDialog(null);
             System.out.println("fi" + selectedFile);
-            this.setFiles(selectedFile);
+            setFiles(selectedFile.stream().map(File::toString).collect(Collectors.toList()));
         });
 
         Button clearButton = new Button("清空");
@@ -71,27 +72,26 @@ public class Source extends VBox {
         getChildren().addAll(srcLabel, toolBar, fileList);
     }
 
-    private void setFiles(List<File> files) {
+    private void setFiles(List<String> files) {
         if (files == null || files.size() <= 0) {
             return;
         }
-        List<String> list = files.stream().map(File::toString).collect(Collectors.toList());
-        ObservableList<String> oblist = FXCollections.observableList(list);
+        ObservableList<String> oblist = FXCollections.observableList(files);
         this.source.clear();
         this.source.set(oblist);
 
         fileList.getItems().clear();
         int index = 1;
-        for (File file : files) {
-            fileList.getItems().add(this.showFile(index, file));
+        for (var file : files) {
+            fileList.getItems().add(showFile(index, file));
             System.out.println("add " + index);
             index++;
         }
         total.setText("共" + fileList.getItems().size() + "个文件");
     }
 
-    private Label showFile(int index, File file) {
-        return new Label(index + ". " + file.getName());
+    private Label showFile(int index, String file) {
+        return new Label(index + ". " + Paths.get(file).getFileName());
     }
 
     public ObservableList<String> getSource() {

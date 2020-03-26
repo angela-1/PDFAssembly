@@ -196,8 +196,7 @@ public class MergeTask extends MyTask {
             String parentTitle = getFileTitle(outputFile);
             PdfOutline parent = rootOutline.addOutline(parentTitle);
 
-            for (var item : listItem)
-            {
+            for (var item : listItem) {
                 parent.addOutline(item);
             }
 
@@ -206,8 +205,7 @@ public class MergeTask extends MyTask {
             pdfDoc.addNamedDestination(stringDest, destToPage3.getPdfObject());
             parent.addAction(PdfAction.createGoTo(new PdfStringDestination(stringDest)));
 
-            if (pdfDoc.getNumberOfPages() % 2 == 1)
-            {
+            if (pdfDoc.getNumberOfPages() % 2 == 1) {
                 pdfDoc.addNewPage(PageSize.A4);
             }
 
@@ -251,6 +249,7 @@ public class MergeTask extends MyTask {
                     .filter(v -> Files.isRegularFile(v))
                     .map(Path::toString)
                     .collect(Collectors.toList());
+            files = Utils.filter(files);
             System.out.println("sha" + files);
         } catch (IOException e) {
             e.printStackTrace();
