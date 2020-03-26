@@ -35,6 +35,7 @@ public class Source extends VBox {
         total = new Label("");
 
         fileList = new ListView<>();
+        fileList.getStyleClass().add("file-list");
         fileList.setOnDragOver(dragEvent -> {
             dragEvent.acceptTransferModes(TransferMode.ANY);
 

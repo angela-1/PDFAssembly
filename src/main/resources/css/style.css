@@ -16,6 +16,21 @@
   -fx-padding: 0 0 8px 0;
 }
 
+.file-list {
+  -fx-background-insets: 1;
+  -fx-background-color: -my-flat-bg-color;
+}
+
+
+.file-list .list-cell {
+  -fx-background-insets: 0;
+}
+
+.file-list .list-cell:selected {
+  -fx-background-color: -my-primary-color;
+  -fx-cursor: default;
+}
+
 .my-list-view {
   -fx-background-insets: 0;
   -fx-background-color: transparent;
@@ -137,11 +152,11 @@
 
 
 .progress-bar {
-   -fx-indeterminate-bar-escape: false;
-   -fx-indeterminate-bar-animation-time: 1.0;
-   -fx-max-height: 6px;
-   -fx-min-height: 6px;
-   -fx-pref-height: 6px;
+  -fx-indeterminate-bar-escape: false;
+  -fx-indeterminate-bar-animation-time: 1.0;
+  -fx-max-height: 6px;
+  -fx-min-height: 6px;
+  -fx-pref-height: 6px;
 }
 
 .progress-bar>.bar {
@@ -187,6 +202,7 @@
   -fx-background-color: -my-flat-bg-color;
   -fx-background-insets: 0
 }
+
 .link-button:focused {
   -fx-border-width: 0;
   -fx-border-insets: 0;

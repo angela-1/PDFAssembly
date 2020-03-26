@@ -1,7 +1,6 @@
 package com.angela;
 
 
-import com.angela.task.MergeDoc;
 import com.angela.task.MyTask;
 import com.angela.task.merge.MergeTask;
 import com.angela.task.pagenumber.PageNumberTask;
@@ -26,7 +25,7 @@ public class Dispatcher {
                 task = new PageNumberTask(config);
                 break;
             default:
-                task = new MergeDoc();
+                task = new MergeTask(config);
                 break;
         }
         return task;

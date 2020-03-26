@@ -3,6 +3,7 @@ package com.angela;
 import javafx.scene.image.ImageView;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashSet;
@@ -47,10 +48,16 @@ public class Utils {
 
         return list.stream().filter(v -> {
             Path f = Paths.get(v.toString());
-            Path filename = f.getFileName();
-            String extension = filename.toString().split("\\.")[1];
-            System.out.println("filter" + f + extension);
-            return supportFormat.contains(extension);
+            if (Files.isDirectory(f)) {
+                return true;
+            } else {
+                String filename = f.getFileName().toString();
+                int point = filename.lastIndexOf(".");
+                String extension = filename.substring(point + 1);
+                System.out.println("filter" + f + extension);
+                return supportFormat.contains(extension);
+            }
+
         }).collect(Collectors.toList());
     }
 }
