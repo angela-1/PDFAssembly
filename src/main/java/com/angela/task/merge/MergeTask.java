@@ -9,6 +9,7 @@ import com.itextpdf.kernel.pdf.*;
 import com.itextpdf.kernel.pdf.action.PdfAction;
 import com.itextpdf.kernel.pdf.navigation.PdfExplicitDestination;
 import com.itextpdf.kernel.pdf.navigation.PdfStringDestination;
+import com.itextpdf.kernel.utils.PdfMerger;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Image;
 
@@ -83,19 +84,13 @@ public class MergeTask extends MyTask {
         }
     }
 
-    private static String getParentTitle(String file) {
-        Path parent = Paths.get(file).getParent();
-        System.out.println("parent title" + parent);
-        return parent.getFileName().toString();
-    }
-
     private static String getFileTitle(String file) {
         String filePath = Paths.get(file).getFileName().toString();
         int point = filePath.lastIndexOf(".");
         return filePath.substring(0, point);
     }
 
-    private static void mergePdfs(List<String> inputFiles, String outputFile) {
+    private void mergePdfs(List<String> inputFiles, String outputFile) {
         PdfDocument pdfDoc;
         try {
             pdfDoc = new PdfDocument(new PdfWriter(outputFile));
@@ -106,6 +101,7 @@ public class MergeTask extends MyTask {
 
             int pageNumber = 0;
 
+            System.out.println("merge pdfs");
             for (var srcFile : inputFiles) {
                 String title = getFileTitle(srcFile);
 
@@ -134,9 +130,11 @@ public class MergeTask extends MyTask {
                 pageNumber += pageCount;
                 firstSourcePdf.close();
 
-                if (pageCount % 2 == 1) {
-                    pdfDoc.addNewPage(PageSize.A4);
-                    pageNumber += 1;
+                if (addWhitePage) {
+                    if (pageCount % 2 == 1) {
+                        pdfDoc.addNewPage(PageSize.A4);
+                        pageNumber += 1;
+                    }
                 }
             }
 
@@ -158,6 +156,68 @@ public class MergeTask extends MyTask {
 
     }
 
+    private void mergePdfsWithBookmark(List<String> inputFiles, String outputFile) {
+        PdfDocument pdfDoc;
+        try {
+            pdfDoc = new PdfDocument(new PdfWriter(outputFile));
+            pdfDoc.initializeOutlines();
+
+            PdfMerger merger = new PdfMerger(pdfDoc, true, true);
+            //
+//            PdfOutline rootOutline = pdfDoc.getOutlines(true);
+//            String parentTitle = getFileTitle(outputFile);
+//            PdfOutline parent = rootOutline.addOutline(parentTitle);
+
+//            int pageNumber = 0;
+
+            System.out.println("merge pdfs with bookmarks");
+
+            for (var srcFile : inputFiles) {
+                PdfDocument firstSourcePdf = new PdfDocument(new PdfReader(srcFile));
+                int pageCount = firstSourcePdf.getNumberOfPages();
+                merger.merge(firstSourcePdf, 1, pageCount);
+
+                firstSourcePdf.getOutlines(false).getDestination();
+                firstSourcePdf.close();
+
+                if (addWhitePage) {
+                    if (pageCount % 2 == 1) {
+                        pdfDoc.addNewPage(PageSize.A4);
+                    }
+                }
+            }
+
+            PdfOutline rootOutline = pdfDoc.getOutlines(false);
+
+            List<PdfOutline> listItem = new ArrayList<>(rootOutline.getAllChildren());
+
+            rootOutline.getAllChildren().clear();
+
+            String parentTitle = getFileTitle(outputFile);
+            PdfOutline parent = rootOutline.addOutline(parentTitle);
+
+            for (var item : listItem)
+            {
+                parent.addOutline(item);
+            }
+
+            PdfExplicitDestination destToPage3 = PdfExplicitDestination.createFit(pdfDoc.getFirstPage());
+            String stringDest = UUID.randomUUID().toString();
+            pdfDoc.addNamedDestination(stringDest, destToPage3.getPdfObject());
+            parent.addAction(PdfAction.createGoTo(new PdfStringDestination(stringDest)));
+
+            if (pdfDoc.getNumberOfPages() % 2 == 1)
+            {
+                pdfDoc.addNewPage(PageSize.A4);
+            }
+
+            pdfDoc.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     private String mergeFiles(List<String> files) {
         // 已经过滤完后的文件
         System.out.println("to merge files" + files);
@@ -170,7 +230,7 @@ public class MergeTask extends MyTask {
 
 
         if (keepBookmark) {
-            mergePdfs(files, dstFile);
+            mergePdfsWithBookmark(files, dstFile);
         } else {
             mergePdfs(files, dstFile);
         }
@@ -184,22 +244,17 @@ public class MergeTask extends MyTask {
     }
 
     private List<String> getFiles(String path) {
-        List<String> files;
-        List<File> filesTmp = new ArrayList<>();
+        List<String> files = null;
         Path dir = Paths.get(path);
         try {
-            Files.walkFileTree(dir, new SimpleFileVisitor<Path>() {
-                @Override
-                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                    filesTmp.add(file.toFile());
-                    return FileVisitResult.CONTINUE;
-                }
-            });
+            files = Files.list(dir)
+                    .filter(v -> Files.isRegularFile(v))
+                    .map(Path::toString)
+                    .collect(Collectors.toList());
+            System.out.println("sha" + files);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        files = Utils.filter(filesTmp).stream()
-                .map(File::toString).collect(Collectors.toList());
         return files;
     }
 
