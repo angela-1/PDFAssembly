@@ -28,7 +28,7 @@ public class Source extends VBox {
         setPadding(new Insets(8, 16, 8, 16));
         setSpacing(8.0);
 
-        source = new SimpleListProperty<String>(FXCollections.observableArrayList());
+        source = new SimpleListProperty<>(FXCollections.observableArrayList());
 
         Label srcLabel = new Label("文件列表");
         srcLabel.getStyleClass().add("h2");
@@ -57,8 +57,10 @@ public class Source extends VBox {
         Button addButton = new Button("添加");
         addButton.setOnMouseClicked(mouseEvent -> {
             List<File> selectedFile = fileChooser.showOpenMultipleDialog(null);
+            if (selectedFile != null) {
+                setFiles(selectedFile.stream().map(File::toString).collect(Collectors.toList()));
+            }
             System.out.println("fi" + selectedFile);
-            setFiles(selectedFile.stream().map(File::toString).collect(Collectors.toList()));
         });
 
         Button clearButton = new Button("清空");

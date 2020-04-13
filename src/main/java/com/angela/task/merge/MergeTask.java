@@ -27,8 +27,6 @@ public class MergeTask extends MyTask {
     private final List<String> source;
     private final boolean keepBookmark;
     private final boolean addWhitePage;
-    private final boolean samePage;
-
 
     public MergeTask(Context config) {
         System.out.println("merger constructor " + config.toString());
@@ -49,9 +47,8 @@ public class MergeTask extends MyTask {
         }
         keepBookmark = (boolean) configMap.get("keepBookmarkProp");
         addWhitePage = (boolean) configMap.get("addWhitePageProp");
-        samePage = (boolean) configMap.get("samePageProp");
 
-        System.out.println("this" + source + keepBookmark + addWhitePage + samePage);
+        System.out.println("this" + source + keepBookmark + addWhitePage);
 
     }
 

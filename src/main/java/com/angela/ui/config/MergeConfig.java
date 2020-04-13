@@ -11,13 +11,11 @@ public class MergeConfig extends VBox implements MyConfig {
 
     private final SimpleBooleanProperty addWhitePageProp;
     private final SimpleBooleanProperty keepBookmarkProp;
-    private final SimpleBooleanProperty samePageProp;
 
 
     public MergeConfig() {
         this.addWhitePageProp = new SimpleBooleanProperty(false);
         this.keepBookmarkProp = new SimpleBooleanProperty(false);
-        this.samePageProp = new SimpleBooleanProperty(false);
 
         CheckBox bookmark = new CheckBox("保留原书签");
         bookmark.selectedProperty().bindBidirectional(this.keepBookmarkProp);
@@ -25,11 +23,8 @@ public class MergeConfig extends VBox implements MyConfig {
         CheckBox addWhitePage = new CheckBox("若页数为单数则添加一个空白页");
         addWhitePage.selectedProperty().bindBidirectional(this.addWhitePageProp);
 
-        CheckBox samePage = new CheckBox("均一化页面大小");
-        samePage.selectedProperty().bindBidirectional(this.samePageProp);
-
         this.setSpacing(8);
-        this.getChildren().addAll(bookmark, addWhitePage, samePage);
+        this.getChildren().addAll(bookmark, addWhitePage);
 
     }
 
@@ -38,7 +33,6 @@ public class MergeConfig extends VBox implements MyConfig {
         Map<String, Object> configMap = new HashMap<String, Object>();
         configMap.put("addWhitePageProp", addWhitePageProp.getValue());
         configMap.put("keepBookmarkProp", keepBookmarkProp.getValue());
-        configMap.put("samePageProp", samePageProp.getValue());
         return configMap;
     }
 }

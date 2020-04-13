@@ -1,5 +1,6 @@
 package com.angela.ui.view;
 
+import com.angela.Utils;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.geometry.Insets;
@@ -24,6 +25,7 @@ public class Action extends VBox {
 
         runButton = new Button("运行");
         runButton.getStyleClass().add("action-button");
+        runButton.setGraphic(Utils.getImageView("/image/play.png", 20));
 
         progressBar = new ProgressBar();
         progressBar.setPrefWidth(100);
