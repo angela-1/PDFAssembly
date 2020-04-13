@@ -55,15 +55,15 @@ public class MergeTask extends MyTask {
 
     }
 
-    private static String convertImgToPdf(String filePath) {
-        if (!Files.exists(Paths.get(filePath))) {
+    private static String convertImgToPdf(String path) {
+        if (!Files.exists(Paths.get(path))) {
             return null;
         }
-        String dest = getDstFile(filePath);
-        PdfDocument pdfDoc = null;
+        String dest = getPdfFile(path);
+        PdfDocument pdfDoc;
         try {
             pdfDoc = new PdfDocument(new PdfWriter(dest));
-            Image image = new Image(ImageDataFactory.create(filePath));
+            Image image = new Image(ImageDataFactory.create(path));
             pdfDoc.addNewPage(PageSize.A4);
             Document doc = new Document(pdfDoc, PageSize.A4);
             doc.add(image);
@@ -74,8 +74,8 @@ public class MergeTask extends MyTask {
         return dest;
     }
 
-    private static void clean(List<String> filepaths) {
-        for (var item : filepaths) {
+    private static void clean(List<String> files) {
+        for (var item : files) {
             try {
                 Files.deleteIfExists(Paths.get(item));
             } catch (IOException e) {
@@ -101,7 +101,7 @@ public class MergeTask extends MyTask {
 
             int pageNumber = 0;
 
-            System.out.println("merge pdfs");
+            System.out.println("merge pdfs" + inputFiles);
             for (var srcFile : inputFiles) {
                 String title = getFileTitle(srcFile);
 
@@ -226,12 +226,28 @@ public class MergeTask extends MyTask {
         String dstFile = getDstFile(files.get(0));
         System.out.println("dst file" + dstFile);
 
+        List<String> convertedFiles = files.stream().map(v -> {
+            String res;
+            if (v.endsWith("pdf")) {
+                System.out.println("pdf" + v);
+                res = v;
+            } else {
+                System.out.println("pic" + v);
+
+                res = convertImgToPdf(v);
+                tmpFiles.add(res);
+            }
+            return res;
+        }).collect(Collectors.toList());
+
 
         if (keepBookmark) {
-            mergePdfsWithBookmark(files, dstFile);
+            mergePdfsWithBookmark(convertedFiles, dstFile);
         } else {
-            mergePdfs(files, dstFile);
+            mergePdfs(convertedFiles, dstFile);
         }
+
+        System.out.println("tmpfiles" + tmpFiles.toString());
         clean(tmpFiles);
         return dstFile;
     }
@@ -239,6 +255,14 @@ public class MergeTask extends MyTask {
     private static String getDstFile(String srcFile) {
         Path parent = Paths.get(srcFile).getParent();
         return parent.toString() + ".pdf";
+    }
+
+    private static String getPdfFile(String srcFile) {
+        Path parent = Paths.get(srcFile).getParent();
+        Path fileName = Paths.get(srcFile).getFileName();
+        String name = fileName.toString().split("\\.")[0] + ".pdf";
+        Path result = Paths.get(parent.toString(), name);
+        return result.toString();
     }
 
     private List<String> getFiles(String path) {
@@ -258,11 +282,9 @@ public class MergeTask extends MyTask {
     }
 
     private String merge() {
-        List<String> files = new ArrayList<>();
+        List<String> files;
         String result = null;
-        boolean allDirectory = source.stream().allMatch(v -> {
-            return Files.isDirectory(Paths.get(v));
-        });
+        boolean allDirectory = source.stream().allMatch(v -> Files.isDirectory(Paths.get(v)));
         if (allDirectory) {
             for (var s : source) {
                 List<String> dirFiles = getFiles(s);
@@ -270,9 +292,7 @@ public class MergeTask extends MyTask {
                 result = mergeFiles(dirFiles);
             }
         } else {
-            files = source.stream().filter(v -> {
-                return Files.isRegularFile(Paths.get(v));
-            }).collect(Collectors.toList());
+            files = source.stream().filter(v -> Files.isRegularFile(Paths.get(v))).collect(Collectors.toList());
             result = mergeFiles(files);
         }
         System.out.println("result" + result);
