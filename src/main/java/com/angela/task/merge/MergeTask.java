@@ -107,11 +107,11 @@ public class MergeTask extends MyTask {
                 int pageCount = firstSourcePdf.getNumberOfPages();
 
                 for (int i = 1; i < pageCount + 1; i++) {
-                    var page = firstSourcePdf.getPage(i);
-                    int pageRotate = page.getRotation();
-                    if (pageRotate != 0) {
-                        page.setRotation(0);
-                    }
+//                    var page = firstSourcePdf.getPage(i);
+//                    int pageRotate = page.getRotation();
+//                    if (pageRotate != 0) {
+//                        page.setRotation(0);
+//                    }
                     PdfPage newPage = firstSourcePdf.getPage(i).copyTo(pdfDoc);
                     pdfDoc.addPage(newPage);
                 }
@@ -173,8 +173,6 @@ public class MergeTask extends MyTask {
                 PdfDocument firstSourcePdf = new PdfDocument(new PdfReader(srcFile));
                 int pageCount = firstSourcePdf.getNumberOfPages();
                 merger.merge(firstSourcePdf, 1, pageCount);
-
-                firstSourcePdf.getOutlines(false).getDestination();
                 firstSourcePdf.close();
 
                 if (addWhitePage) {
