@@ -3,19 +3,9 @@ package com.angela.ui.view;
 import com.angela.Context;
 import com.angela.Dispatcher;
 import com.angela.task.MyTask;
-import com.jacob.activeX.ActiveXComponent;
-import com.jacob.com.Dispatch;
-import com.jacob.com.Variant;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
-import javafx.scene.control.SplitPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -68,35 +58,6 @@ public class Frame extends BorderPane {
         action.getRunButton().setOnMouseClicked(mouseEvent -> {
             Map<String, Object> configMap = content.getConfig();
             System.out.println("click action");
-            try {
-                // 打开Word应用程序
-                ActiveXComponent app = new ActiveXComponent("KWPS.Application");
-                // 设置Word不可见
-                app.setProperty("Visible", new Variant(false));
-                // 禁用宏
-                app.setProperty("AutomationSecurity", new Variant(3));
-                // 获得Word中所有打开的文档，返回documents对象
-                Dispatch docs = app.getProperty("Documents").toDispatch();
-                // 调用Documents对象中Open方法打开文档，并返回打开的文档对象Document
-                Dispatch doc = Dispatch.call(docs, "Open", "d:\\word-file.docx", false, true).toDispatch();
-                /***
-                 * 
-                 * 调用Document对象的SaveAs方法，将文档保存为pdf格式
-                 * 
-                 * Dispatch.call(doc, "SaveAs", pdfFile, wdFormatPDF word保存为pdf格式宏，值为17 )
-                 * 
-                 */
-                Dispatch.call(doc, "ExportAsFixedFormat", "d:\\cal.pdf", 17);// word保存为pdf格式宏，值为17
-                // 关闭文档
-
-                Dispatch.call(doc, "Close", false);
-                // 关闭Word应用程序
-                app.invoke("Quit", 0);
-            } catch (Exception e) {
-                // TODO: handle exception
-            }
-
-
             context.setConfig(configMap);
             MyTask task = Dispatcher.run(context);
             new Thread(task).start();
