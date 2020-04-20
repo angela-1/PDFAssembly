@@ -54,8 +54,8 @@ public class Utils {
                 String filename = f.getFileName().toString();
                 int point = filename.lastIndexOf(".");
                 String extension = filename.substring(point + 1);
-                System.out.println("filter" + f + extension);
-                return supportFormat.contains(extension);
+                System.out.println("filter" + f + extension.toLowerCase());
+                return supportFormat.contains(extension.toLowerCase());
             }
         }).collect(Collectors.toList());
     }

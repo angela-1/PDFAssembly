@@ -223,7 +223,7 @@ public class MergeTask extends MyTask {
 
         List<String> convertedFiles = files.stream().map(v -> {
             String res;
-            if (v.endsWith("pdf")) {
+            if (v.toLowerCase().endsWith("pdf")) {
                 System.out.println("pdf" + v);
                 res = v;
             } else {
